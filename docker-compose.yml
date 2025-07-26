@@ -7,7 +7,7 @@ services:
       - Marbrnet
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.reuniao-backend.rule=Host(`reuniao.seusite.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.reuniao-backend.rule=Host(`reuniao.automacao.marbr.com.br`) && PathPrefix(`/api`)"
       - "traefik.http.routers.reuniao-backend.service=reuniao-backend-svc"
       - "traefik.http.middlewares.reuniao-api-stripprefix.stripprefix.prefixes=/api"
       - "traefik.http.routers.reuniao-backend.middlewares=reuniao-api-stripprefix"
@@ -21,7 +21,7 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.reuniao-frontend.rule=Host(`reuniao.seusite.com`)"
+      - "traefik.http.routers.reuniao-frontend.rule=Host(`reuniao.automacao.marbr.com.br`)"
       - "traefik.http.routers.reuniao-frontend.service=reuniao-frontend-svc"
       - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=3000"
 
