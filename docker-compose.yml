@@ -11,7 +11,7 @@ services:
       - "traefik.http.routers.reuniao-backend.service=reuniao-backend-svc"
       - "traefik.http.middlewares.reuniao-api-stripprefix.stripprefix.prefixes=/api"
       - "traefik.http.routers.reuniao-backend.middlewares=reuniao-api-stripprefix"
-      - "traefik.http.services.reuniao-backend-svc.loadbalancer.server.port=3001"
+      - "traefik.http.services.reuniao-backend-svc.loadbalancer.server.port=8000"
 
   frontend:
     image: brunohznd/reuniao-frontend:latest
