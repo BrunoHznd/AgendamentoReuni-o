@@ -21,8 +21,21 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.reuniao-frontend.rule=Host(`reuniao.automacao.marbr.com.br`)"
-      - "traefik.http.routers.reuniao-frontend.service=reuniao-frontend-svc"
+      # --- Redirecionamento HTTP -> HTTPS ---
+      - "traefik.http.routers.reuniao-frontend-http.rule=Host(`reuniao.automacao.marbr.com.br`)"
+      - "traefik.http.routers.reuniao-frontend-http.entrypoints=web"
+      - "traefik.http.routers.reuniao-frontend-http.middlewares=https-redirect"
+
+      # --- Middleware de Redirecionamento ---
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+
+      # --- Roteador Principal com HTTPS ---
+      - "traefik.http.routers.reuniao-frontend-secure.rule=Host(`reuniao.automacao.marbr.com.br`)"
+      - "traefik.http.routers.reuniao-frontend-secure.entrypoints=websecure"
+      - "traefik.http.routers.reuniao-frontend-secure.tls=true"
+      - "traefik.http.routers.reuniao-frontend-secure.tls.certresolver=letsencrypt" # Verifique se 'letsencrypt' é o nome do seu resolvedor
+
+      - "traefik.http.routers.reuniao-frontend-secure.service=reuniao-frontend-svc"
       - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=3000"
 
 networks:
