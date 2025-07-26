@@ -6,12 +6,18 @@ services:
     networks:
       - Marbrnet
     labels:
+      # --- Configuração Geral do Backend ---
       - "traefik.enable=true"
-      - "traefik.http.routers.reuniao-backend.rule=Host(`reuniao.automacao.marbr.com.br`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.reuniao-backend.service=reuniao-backend-svc"
-      - "traefik.http.middlewares.reuniao-api-stripprefix.stripprefix.prefixes=/api"
-      - "traefik.http.routers.reuniao-backend.middlewares=reuniao-api-stripprefix"
       - "traefik.http.services.reuniao-backend-svc.loadbalancer.server.port=8000"
+      - "traefik.http.middlewares.reuniao-api-stripprefix.stripprefix.prefixes=/api"
+
+      # --- Rota Segura (HTTPS) para a API ---
+      - "traefik.http.routers.reuniao-backend-secure.rule=Host(`reuniao.automacao.marbr.com.br`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.reuniao-backend-secure.entrypoints=websecure"
+      - "traefik.http.routers.reuniao-backend-secure.tls=true"
+      - "traefik.http.routers.reuniao-backend-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.reuniao-backend-secure.service=reuniao-backend-svc"
+      - "traefik.http.routers.reuniao-backend-secure.middlewares=reuniao-api-stripprefix"
 
   frontend:
     image: brunohznd/reuniao-frontend:latest
@@ -20,23 +26,22 @@ services:
     depends_on:
       - backend
     labels:
+      # --- Configuração Geral do Frontend ---
       - "traefik.enable=true"
-      # --- Redirecionamento HTTP -> HTTPS ---
+      - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+
+      # --- Rota HTTP para Redirecionamento ---
       - "traefik.http.routers.reuniao-frontend-http.rule=Host(`reuniao.automacao.marbr.com.br`)"
       - "traefik.http.routers.reuniao-frontend-http.entrypoints=web"
       - "traefik.http.routers.reuniao-frontend-http.middlewares=https-redirect"
 
-      # --- Middleware de Redirecionamento ---
-      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
-
-      # --- Roteador Principal com HTTPS ---
+      # --- Rota Segura (HTTPS) Principal ---
       - "traefik.http.routers.reuniao-frontend-secure.rule=Host(`reuniao.automacao.marbr.com.br`)"
       - "traefik.http.routers.reuniao-frontend-secure.entrypoints=websecure"
       - "traefik.http.routers.reuniao-frontend-secure.tls=true"
-      - "traefik.http.routers.reuniao-frontend-secure.tls.certresolver=letsencrypt" # Verifique se 'letsencrypt' é o nome do seu resolvedor
-
+      - "traefik.http.routers.reuniao-frontend-secure.tls.certresolver=letsencrypt"
       - "traefik.http.routers.reuniao-frontend-secure.service=reuniao-frontend-svc"
-      - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=3000"
 
 networks:
   Marbrnet: # Define a rede como externa, pois ela já foi criada pelo Traefik
