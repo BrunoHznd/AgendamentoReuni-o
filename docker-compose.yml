@@ -8,6 +8,7 @@ services:
     labels:
       # --- Configuração Geral do Backend ---
       - "traefik.enable=true"
+      - "traefik.docker.network=Marbrnet"
       - "traefik.http.services.reuniao-backend-svc.loadbalancer.server.port=8000"
       - "traefik.http.middlewares.reuniao-api-stripprefix.stripprefix.prefixes=/api"
 
@@ -28,6 +29,7 @@ services:
     labels:
       # --- Configuração Geral do Frontend ---
       - "traefik.enable=true"
+      - "traefik.docker.network=Marbrnet"
       - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=3000"
       - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
 
