@@ -7,8 +7,6 @@ services:
       dockerfile: Dockerfile
     container_name: reuniao-backend
     restart: unless-stopped
-    env_file:
-      - ./backend/.env
     networks:
       - Marbrnet # Garanta que esta é a rede que seu Traefik está usando
     labels:
