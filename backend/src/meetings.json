@@ -1,0 +1,18 @@
+[
+  {
+    "id": "23cd54ba-26c6-8116-a41b-d3806c837c77",
+    "title": "Teste",
+    "description": "Teste",
+    "startDateTime": "2025-07-28T09:00",
+    "duration": 60,
+    "meetingLink": "https://meet.google.com/fjt-sghy-wfc",
+    "participants": [
+      "Matheus Santos",
+      "Bruno Oliveira",
+      "Ricardo Lima"
+    ],
+    "type": "Reunião de projeto",
+    "notionPageId": "23cd54ba-26c6-8116-a41b-d3806c837c77",
+    "createdAt": "2025-07-26T14:03:17.843Z"
+  }
+]

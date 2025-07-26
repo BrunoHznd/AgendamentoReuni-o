@@ -1,0 +1,22 @@
+# Ignorar dependências locais
+node_modules
+
+# Ignorar a pasta de build local
+dist
+
+# Ignorar logs e arquivos de ambiente
+npm-debug.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignorar arquivos do Git
+.git
+.gitignore
+
+# Ignorar arquivos do Docker que não precisam ir para a imagem
+Dockerfile
+.dockerignore
+nginx.conf

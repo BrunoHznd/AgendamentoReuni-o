@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: reuniao-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    networks:
+      - Marbrnet # Garanta que esta é a rede que seu Traefik está usando
+    labels:
+      - "traefik.enable=true"
+      # Roteador para a API, escutando no seu domínio, apenas para o caminho /api
+      - "traefik.http.routers.reuniao-backend.rule=Host(`reuniao.seusite.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.reuniao-backend.service=reuniao-backend-svc"
+      # Middleware para remover o /api antes de enviar para o backend
+      - "traefik.http.middlewares.reuniao-api-stripprefix.stripprefix.prefixes=/api"
+      - "traefik.http.routers.reuniao-backend.middlewares=reuniao-api-stripprefix"
+      # Definição do serviço do backend
+      - "traefik.http.services.reuniao-backend-svc.loadbalancer.server.port=3001"
+
+  frontend:
+    build:
+      context: ./project
+      dockerfile: Dockerfile
+    container_name: reuniao-frontend
+    restart: unless-stopped
+    networks:
+      - Marbrnet # Garanta que esta é a rede que seu Traefik está usando
+    depends_on:
+      - backend
+    labels:
+      - "traefik.enable=true"
+      # Roteador para o frontend, escutando no seu domínio
+      - "traefik.http.routers.reuniao-frontend.rule=Host(`reuniao.seusite.com`)"
+      - "traefik.http.routers.reuniao-frontend.service=reuniao-frontend-svc"
+      # Definição do serviço do frontend (usa a porta 3000, do 'serve')
+      - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=3000"
+
+networks:
+  Marbrnet: # Define a rede como externa, pois ela já foi criada pelo Traefik
+    external: true
