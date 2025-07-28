@@ -115,4 +115,23 @@ router.post('/send-to-notion', async (req, res) => {
   }
 });
 
+// Rota para o webhook do Transkriptor
+router.post('/webhook', async (req, res) => {
+  try {
+    console.log('--- [WEBHOOK TRANSKRIPTOR RECEBIDO] ---');
+    console.log('Headers:', JSON.stringify(req.headers, null, 2));
+    console.log('Body:', JSON.stringify(req.body, null, 2));
+
+    // TODO: Implementar a lógica para processar a transcrição
+    // 1. Extrair o ID da reunião e o texto da transcrição do req.body
+    // 2. Buscar o ID da página do Notion correspondente à reunião
+    // 3. Adicionar a transcrição como um comentário na página do Notion
+
+    res.status(200).send('Webhook recebido com sucesso!');
+  } catch (error) {
+    console.error('Erro ao processar webhook do Transkriptor:', error);
+    res.status(500).json({ error: 'Erro interno no servidor ao processar o webhook' });
+  }
+});
+
 export default router;
