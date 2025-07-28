@@ -1,5 +1,5 @@
 # Estágio 1: Build da aplicação React
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
@@ -23,9 +23,10 @@ RUN npm install -g serve
 # Copia os arquivos do build do estágio anterior
 COPY --from=build /app/dist .
 
-# Expõe a porta 3000 (porta padrão do 'serve')
+# Expõe a porta 3000, que o 'serve' usará
 EXPOSE 3000
 
-# Comando para servir a pasta 'dist' (que agora é a raiz do workdir)
-# O '-s' garante que o roteamento do React funcione (single-page app)
-CMD [ "serve", "-s", ".", "-l", "3000" ]
+# Comando para iniciar o servidor estático
+# -s: Serve como Single-Page App (essencial para React Router)
+# -l 3000: Escuta na porta 3000
+CMD ["serve", "-s", "-l", "3000"]
