@@ -1,9 +1,6 @@
 # Ignorar dependências locais
 node_modules
 
-# Ignorar a pasta de build local
-dist
-
 # Ignorar logs e arquivos de ambiente
 npm-debug.log
 .env

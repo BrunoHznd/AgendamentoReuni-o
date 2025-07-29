@@ -25,7 +25,7 @@ services:
       - "traefik.docker.network=Marbrnet"
       - "traefik.http.routers.reuniao-frontend.rule=Host(`reuniao.automacao.marbr.com.br`)"
       - "traefik.http.routers.reuniao-frontend.service=reuniao-frontend-svc"
-      - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=3000"
+      - "traefik.http.services.reuniao-frontend-svc.loadbalancer.server.port=10050"
 
 networks:
   Marbrnet:

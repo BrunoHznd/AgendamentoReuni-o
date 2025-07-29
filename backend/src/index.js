@@ -7,7 +7,9 @@ import transcriptionRouter from './routes/transcription.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+// Lê a porta da variável de ambiente ou usa 3001 como padrão.
+// Isso garante que o servidor escute na mesma porta que o Traefik espera.
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
