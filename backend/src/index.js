@@ -21,6 +21,6 @@ app.get('/', (req, res) => {
 app.use('/api/meetings', meetingsRouter);
 app.use('/api/transcription', transcriptionRouter);
 
-app.listen(PORT, () => {
-  console.log(`Servidor backend rodando em http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor backend rodando em http://0.0.0.0:${PORT}`);
 });

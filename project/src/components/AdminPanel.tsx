@@ -37,7 +37,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
       const formData = new FormData();
       formData.append('file', file);
       // meetingId pode ser passado se necessário
-      const res = await fetch('http://localhost:8000/api/transcription/upload', {
+      const res = await fetch('http://92.113.38.123:3001/api/transcription/upload', {
         method: 'POST',
         body: formData
       });
@@ -47,7 +47,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
         setStatus('Transcrevendo...');
         // Poll status
         const poll = setInterval(async () => {
-          const statusRes = await fetch(`http://localhost:8000/api/transcription/status/${data.fileId}`);
+          const statusRes = await fetch(`http://92.113.38.123:3001/api/transcription/status/${data.fileId}`);
           const statusData = await statusRes.json();
           if (statusData.status === 'completed' && statusData.transcript) {
             setTranscript(statusData.transcript);
@@ -55,7 +55,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
             clearInterval(poll);
             // Enviar para o Notion automaticamente
             if (statusData.transcript && statusData.meetingId) {
-              await fetch('http://localhost:8000/api/transcription/send-to-notion', {
+              await fetch('http://92.113.38.123:3001/api/transcription/send-to-notion', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ meetingId: statusData.meetingId, transcript: statusData.transcript })

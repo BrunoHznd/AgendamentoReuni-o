@@ -3,7 +3,7 @@ import { AuthService } from './auth';
 import { NotificationService } from './notifications';
 
 // Com o Traefik, o frontend fará chamadas para um caminho relativo, e o Traefik redirecionará para o backend.
-const API_BASE_URL = '/api'; // Real backend URL
+const API_BASE_URL = 'http://92.113.38.123:3001/api'; // Real backend URL
 const USE_MOCK = false; // Set to false when using real backend
 
 // // Mock data for development
